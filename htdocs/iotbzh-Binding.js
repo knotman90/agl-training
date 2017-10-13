@@ -21,7 +21,7 @@ var log = {
 
 	reply: function (obj) {
 		console.log("replyok:" + JSON.stringify(obj));
-		log._write("output", count + ": OK: " + log.syntaxHighlight(obj));
+		log._write("output", count + ": Response: " + log.syntaxHighlight(obj));
 	},
 
 	error: function (obj) {

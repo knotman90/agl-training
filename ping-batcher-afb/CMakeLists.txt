@@ -1,8 +1,6 @@
 ###########################################################################
 # Copyright 2015, 2016, 2017 IoT.bzh
 #
-# author: Fulup Ar Foll <fulup@iot.bzh>
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -16,18 +14,23 @@
 # limitations under the License.
 ###########################################################################
 
+# Add target to project dependency list
+PROJECT_TARGET_ADD(ping-batcher)
+    # Define project Targets
+    file(GLOB sourcelist "*.c")
 
+    # Define project Targets
+    ADD_LIBRARY(${TARGET_NAME} MODULE ${sourcelist})
 
-##################################################
-# HTML Testing Files
-##################################################
-PROJECT_TARGET_ADD(htdocs)
-
-    file(GLOB SOURCE_FILES "*.html" "*.js" "*.jpg" "*.css" "assets")
-
-	add_input_files("${SOURCE_FILES}")
-
+    # Binder exposes a unique public entry point
     SET_TARGET_PROPERTIES(${TARGET_NAME} PROPERTIES
-	LABELS "HTDOCS"
-	OUTPUT_NAME ${TARGET_NAME}
+        PREFIX "afb-"
+        LABELS "BINDING"
+        LINK_FLAGS  ${BINDINGS_LINK_FLAG}
+        OUTPUT_NAME ${TARGET_NAME}
+    )
+
+    TARGET_LINK_LIBRARIES(${TARGET_NAME}
+        afb-utilities
+        ${link_libraries}
     )

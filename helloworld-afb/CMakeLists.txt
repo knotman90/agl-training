@@ -16,7 +16,6 @@
 
 # Add target to project dependency list
 PROJECT_TARGET_ADD(helloworld)
-
     # Define project Targets
     file(GLOB sourcelist "*.c")
 
@@ -25,12 +24,13 @@ PROJECT_TARGET_ADD(helloworld)
 
     # Binder exposes a unique public entry point
     SET_TARGET_PROPERTIES(${TARGET_NAME} PROPERTIES
-	PREFIX "afb-"
+        PREFIX "afb-"
         LABELS "BINDING"
-	LINK_FLAGS  ${BINDINGS_LINK_FLAG}
+        LINK_FLAGS  ${BINDINGS_LINK_FLAG}
         OUTPUT_NAME ${TARGET_NAME}
     )
 
     TARGET_LINK_LIBRARIES(${TARGET_NAME}
-	    ${link_libraries}
+        afb-utilities
+        ${link_libraries}
     )
