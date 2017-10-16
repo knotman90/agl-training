@@ -1,39 +1,49 @@
 # helloworld-service
 
-A Helloworld AGL application for AGL Training 02.
+A Helloworld AGL application for AGL Training 04.
 
-## Build for 'native' Linux distros (Fedora, openSUSE, Debian, Ubuntu, ...)
+Goal is to create a helloworld application form scratch for an AGL
+system. As you already know how to build an app using XDS to cross build
+for a target board as well as build using native OS, you are free to
+choose the way you'll build and test.
 
-Easy way using autobuild script:
+## Instructions
 
-```bash
-./conf.d/autobuild/linux/autobuild package
-```
+Step by step app building flow:
 
-Step-by-step build:
+1. create empty git repo
+ ```bash
+ mkdir my-helloworld
+ cd my-helloworld
+ export PROJECT_DIR=$(pwd)
+ git init
+ ```
+2. add `app-template` submodule to the repo:
+ ```bash
+ cd ${PROJECT_DIR}
+ git submodule add https://gerrit.automotivelinux.org/gerrit/apps/app-templates conf.d/app-templates
+ ```
+3. Initialize your project by copying and editing the samples files:
+ ```bash
+ cd ${PROJECT_DIR}/conf.d/
+ mkdir -p cmake wgt
+  cp app-templates/samples.d/CMakeLists.txt ${PROJECT_DIR}/CMakeLists.txt
+ cp app-templates/samples.d/config.xml.in.sample wgt/config.xml.in
+ cp app-templates/samples.d/config.cmake.sample cmake/config.cmake
+ vim cmake/config.cmake
+ ```
+4. create and develop the AGL service target:
+ ```bash
+ cd ${PROJECT_DIR}
+ mkdir -p afb-helloworld
+ cd afb-helloworld
+ touch helloworld-service.c CMakeLists.txt
+ ```
 
-```bash
-mkdir build
-cd build
-cmake ..
-make
-```
+## Build
+
+Use instructions learnt from training 02-03 to build your app
 
 ## Test
 
-### Native Linux
-
-For native build you need to have tools **afb-daemon**.
-You can build it by your self [app-framework-binder][app-framework-binder], or use binary package from OBS: [opensuse.org/LinuxAutomotive][opensuse.org/LinuxAutomotive]
-
-```bash
-export PORT=8000
-afb-daemon --port=${PORT}  --ldpaths=/opt/AGL/helloworld-service/lib/
-
-curl http://localhost:${PORT}/api/helloworld/ping
-#For a nice display
-curl http://localhost:${PORT}/api/helloworld/ping 2>/dev/null | python -m json.tool
-```
-
-[opensuse.org/LinuxAutomotive]:https://en.opensuse.org/LinuxAutomotive
-[app-framework-binder]:https://gerrit.automotivelinux.org/gerrit/#/admin/projects/src/app-framework-binder
+Use instructions learnt from training 02-03 to test your app
